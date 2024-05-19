@@ -84,9 +84,10 @@
                 <div class="input-field col s12 m6">
                     <input id="cantidad" name="cantidad" type="number" class="validate" required>
                     <label for="cantidad">Cantidad</label>
+                    <strong id="mensaje" style="color: red; display:none">No se puede disminuir la cantidad existente</strong>
                 </div>
                 <div class="center-align col s12">
-                    <button class="btn waves-effect waves-light" type="submit">Aceptar
+                    <button class="btn waves-effect waves-light" id="enviar" type="submit">Aceptar
                     </button>
                 </div>
             </form>
@@ -103,6 +104,15 @@
             })
         </script>
     @endif
+    @error('cantidad')
+        <script>
+            M.toast({
+                html: '{{ $message }} ',
+                classes: 'black',
+                displayLength: 4000,
+            })
+        </script>
+    @enderror
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var elems = document.querySelectorAll('.modal');
@@ -115,11 +125,21 @@
         }
         function entradaProducto($id,$cantidadActual){
             document.getElementById('cantidad').value = $cantidadActual;
-            document.getElementById('cantidad').min = $cantidadActual;
+            //document.getElementById('cantidad').min = $cantidadActual;
             document.getElementById('id').value = $id;
             var modal = document.getElementById('modalEntrada');
             var instance = M.Modal.getInstance(modal);
             instance.open();
+            document.getElementById('cantidad').addEventListener('input', function() {
+                var cantidad = this.value;
+                if(cantidad < $cantidadActual){
+                    document.getElementById('mensaje').style.display = 'inline';
+                    document.getElementById('enviar').disabled = true;
+                }else{
+                    document.getElementById('mensaje').style.display = 'none';
+                    document.getElementById('enviar').disabled = false;
+                }
+            });
         }
     </script>
 @endsection

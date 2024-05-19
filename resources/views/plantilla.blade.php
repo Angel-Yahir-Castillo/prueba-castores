@@ -45,7 +45,7 @@
         @endif
 
         @if (Auth::user()->role->nombre == 'almacenista')
-            <li><a href="{{ route('historial') }}"><i class="material-icons">logout</i>Salida de Productos</a></li>
+            <li><a href="{{ route('salida') }}"><i class="material-icons">logout</i>Salida de Productos</a></li>
         @endif
 
 

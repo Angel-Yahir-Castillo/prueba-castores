@@ -50,7 +50,7 @@
             </table>
         </div>
     </div>
-
+    <br><br>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var elems = document.querySelectorAll('select');

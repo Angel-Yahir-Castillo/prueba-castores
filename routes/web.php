@@ -22,6 +22,7 @@ Route::post('/productos/guardar', [ProductosController::class, 'store'])->middle
 Route::post('/entrada-productos', [InventarioController::class, 'entradaProducto'])->middleware('auth')->name('entrada');
 
 Route::get('/salida-productos', [InventarioController::class, 'salida'])->middleware(['auth',AlmacenistaMiddleware::class])->name('salida');
+Route::post('/salida/productos', [InventarioController::class, 'salidaProducto'])->middleware('auth')->name('salida.producto');
 
 Route::get('/historial', [MovimientosInventarioController::class, 'index'])->middleware(['auth',AdminMiddleware::class])->name('historial');
 
