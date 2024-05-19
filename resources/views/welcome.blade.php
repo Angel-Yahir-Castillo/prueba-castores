@@ -5,8 +5,8 @@
 @section('content')
     <!-- Contenido principal -->
     <div class="container">
-        <h1>Bienvenido al módulo de Inventario</h1>
-        <p>Aquí puedes gestionar todos los aspectos relacionados con el inventario.</p>
+        <h1>Bienvenido</h1>
+        <p>Sesion iniciada como {{Auth::user()->role->nombre}}</p>
 
         <div class="row section">
             <form method="POST" class="col s12" action="{{ route('logout') }}">
