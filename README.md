@@ -22,6 +22,6 @@
 <h4>Credenciales para acceder como almacenista:</h4>
 <li>Correo: almacen@castores.com</li>
 <li>Contraseña: castores.2024</li>
-
+<br>
 <a href="https://drive.google.com/drive/folders/1FimEFGrhgrclR-f2d3N0mpj1Xhb5sixw?usp=sharing">Url del video demostrativo</a>
 
