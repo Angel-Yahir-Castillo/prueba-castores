@@ -32,7 +32,7 @@
         <li>
             <div class="user-view">
                 <div class="background"></div>
-                <a href="#user"><img class="circle" src="https://via.placeholder.com/100"></a>
+                <a href="#user"><img class="circle" src="https://www.castores.com.mx/assets/favicon.png"></a>
                 <a href="#name"><span class="white-text name">{{Auth::user()->name }}</span></a>
                 <a href="#email"><span class="white-text email">{{Auth::user()->email }}</span></a>
             </div>

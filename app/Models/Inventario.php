@@ -15,4 +15,8 @@ class Inventario extends Model
         'cantidad'
     ];
 
+    public function producto(){
+        return $this->belongsTo(Productos::class, 'idProducto');
+    }
+
 }

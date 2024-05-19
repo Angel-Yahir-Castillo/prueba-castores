@@ -29,19 +29,21 @@
     <div class="login-container">
         <div class="card login-card">
             <div class="card-content">
-                <img src="https://via.placeholder.com/100x100" alt="Logo de la empresa" class="company-logo">
+                <img src="https://www.castores.com.mx/assets/favicon.png" alt="Logo de la empresa" class="company-logo">
                 <span class="card-title center-align">Iniciar Sesión</span>
                 <form action="{{route('login.user')}}" method="POST">
                     @csrf
                     <div class="input-field">
                         <i class="material-icons prefix">email</i>
-                        <input id="correo" name="correo" type="email" class="validate" required>
+                        <input id="correo" name="correo" type="email" class="validate" value="{{ old('correo') }}" required>
                         <label for="correo">Correo Electrónico</label>
+                        <strong style="color: red;">@error('correo') {{ $message }} @enderror</strong>
                     </div>
                     <div class="input-field">
                         <i class="material-icons prefix">lock</i>
-                        <input id="contrasena" name="contrasena" type="password" class="validate" required>
+                        <input id="contrasena" name="contrasena" type="password" class="validate" value="{{ old('contrasena') }}" required>
                         <label for="contrasena">Contraseña</label>
+                        <strong style="color: red;">@error('contrasena') {{ $message }} @enderror</strong>
                     </div>
                     <div class="center-align">
                         <button class="btn waves-effect waves-light" type="submit">Ingresar
@@ -59,5 +61,14 @@
         M.AutoInit();
         });
     </script>
+    @if (session('informacion'))
+        <script>
+            M.toast({
+                html: '{{ session("status")}} ',
+                classes: 'black',
+                displayLength: 4000,
+            })
+        </script>
+    @endif
 </body>
 </html>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Usuarios;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,6 +20,8 @@ class UsuariosController extends Controller
     }
 
     public function login(Request $request){
+        $user = User::where('email', $request->correo)->get();
+
         $request->validate([
             'correo' => ['required', 'email', 'string'],
             'contrasena' => ['required', 'string'],
@@ -30,57 +33,30 @@ class UsuariosController extends Controller
         ];
 
         if(Auth::attempt($credentials)){
+
             $request->session()->regenerate();
             return redirect(route('home'));
         }
 
+        if(count($user) >0){
+            throw ValidationException::withMessages([
+                'contrasena' => __('auth.password')
+            ]);
+        }
+        else{
+            throw validationException::withMessages([
+                'correo' => __('auth.failed'),
+            ]);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    public function logout(Request $request){
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        Auth::logout();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Usuarios $usuarios)
-    {
-        //
-    }
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Usuarios $usuarios)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Usuarios $usuarios)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Usuarios $usuarios)
-    {
-        //
+        return redirect(route('login'))->with('status', 'Sesion cerrada');
     }
 }

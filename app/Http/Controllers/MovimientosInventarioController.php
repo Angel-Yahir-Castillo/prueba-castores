@@ -8,57 +8,16 @@ use Illuminate\Http\Request;
 class MovimientosInventarioController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $movimientos = MovimientosInventario::all();
+        if(isset($request->tipo) && $request->tipo != 'todos'){
+            $movimientos = MovimientosInventario::where('tipo',$request->tipo)->get();
+        }else{
+            $movimientos = MovimientosInventario::all();
+        }
+
         return view('historial',compact('movimientos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(MovimientosInventario $movimientosInventario)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(MovimientosInventario $movimientosInventario)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, MovimientosInventario $movimientosInventario)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(MovimientosInventario $movimientosInventario)
-    {
-        //
-    }
 }
