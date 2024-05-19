@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventario;
 use App\Models\Productos;
 use Illuminate\Http\Request;
 
@@ -12,54 +13,40 @@ class ProductosController extends Controller
      */
     public function index()
     {
-        //
+        $productos = Productos::all();
+        return view('productos',compact('productos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $producto = new Productos();
+        $producto->nombre = $request->nombre;
+        $producto->precio = $request->precio;
+        $producto->save();
+
+        $inventario = new Inventario();
+        $inventario->idProducto = $producto->id;
+        $inventario->save();
+        return redirect(route('productos'))->with('informacion','Se agregó el nuevo producto al inventario');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Productos $productos)
-    {
-        //
-    }
+    public function cambiarEstatus($id){
+        $producto = Productos::find($id);
+        if($producto->activo == 1){
+            $producto->update([
+                'activo' => 0,
+            ]);
+        }else{
+            $producto->update([
+                'activo' => 1,
+            ]);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Productos $productos)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Productos $productos)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Productos $productos)
-    {
-        //
+        return redirect(route('productos'))->with('informacion','Estatus actualizado con exito');
     }
 }

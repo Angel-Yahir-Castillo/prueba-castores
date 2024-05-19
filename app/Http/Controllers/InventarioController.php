@@ -3,63 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventario;
+use App\Models\MovimientosInventario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InventarioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+    public function entradaProducto(Request $request){
+        $inventario = Inventario::find($request->id);
+        $cantidad = $inventario->cantidad;
+        $request->validate([
+            'id' => 'required',
+            'cantidad' => ['required','numeric','min:'.$cantidad],
+        ]);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        $inventario->update([
+            'cantidad' => $request->cantidad
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $mi = new MovimientosInventario();
+        $mi->idInventario = $inventario->id;
+        $mi->cantidadAntes = $cantidad;
+        $mi->cantidadDespues = $inventario->cantidad;
+        $mi->tipo = 'entrada';
+        $mi->idUsuario = Auth::user()->id;
+        $mi->save();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Inventario $inventario)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Inventario $inventario)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Inventario $inventario)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Inventario $inventario)
-    {
-        //
+        return redirect(route('productos'))->with('informacion','Se registro la entrada del producto');
     }
 }

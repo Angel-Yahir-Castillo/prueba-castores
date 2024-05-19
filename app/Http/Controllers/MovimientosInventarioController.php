@@ -7,12 +7,11 @@ use Illuminate\Http\Request;
 
 class MovimientosInventarioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
+        $movimientos = MovimientosInventario::all();
+        return view('historial',compact('movimientos'));
     }
 
     /**

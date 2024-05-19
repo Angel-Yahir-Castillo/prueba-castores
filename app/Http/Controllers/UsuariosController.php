@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Usuarios;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UsuariosController extends Controller
 {
@@ -12,7 +15,25 @@ class UsuariosController extends Controller
      */
     public function index()
     {
-        //
+        return view('login');
+    }
+
+    public function login(Request $request){
+        $request->validate([
+            'correo' => ['required', 'email', 'string'],
+            'contrasena' => ['required', 'string'],
+        ]);
+
+        $credentials = [
+            "email" => $request->correo,
+            "password" => $request->contrasena
+        ];
+
+        if(Auth::attempt($credentials)){
+            $request->session()->regenerate();
+            return redirect(route('home'));
+        }
+
     }
 
     /**
